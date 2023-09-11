@@ -9,10 +9,9 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
+
 - [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
+- [Documentation](#Documentation)
 
 ## Installation
 
@@ -38,3 +37,6 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 * The PUT request receives two attributes: 'attribute_name' and 'new_name,' and utilizes them to update a person's name to the 'new_name' value.
 * The DELETE request requires an attribute name and its corresponding value, and if a matching person exists in the database, it proceeds to delete that person.
  
+##Documentation
+
+>https://documenter.getpostman.com/view/29175518/2s9YC1XaKn

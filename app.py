@@ -46,10 +46,12 @@ def api():
                 bleach_name = bleach.clean(new_name)
                 return redirect(url_for('put', name=name, new_name=bleach_name)), 307
             else:
-                return jsonify(response=f'{new_name} has a integer', status_code=200), 200
+                return jsonify(response=f'{new_name} has a integer', status_code=400), 400
 
         elif request.method == 'DELETE':
             return redirect(url_for('delete', name=name)), 307
+    else:
+        return jsonify(response=f'{name} has a integer', status_code=400), 400
 
 @app.route('/api/read', methods=['GET'])
 def read():
