@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('key')
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('sqlite', 'postgres')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('postgres')
 db.init_app(app)
 with app.app_context():
     db.create_all()
