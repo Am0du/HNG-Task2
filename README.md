@@ -13,6 +13,7 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 - [Features](#features)
 - [Documentation](#Documentation)
 - [Use case](#usecase)
+- [Url](#url)
 
 ## Installation
 
@@ -46,3 +47,6 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 
 <img src="use_case.jpg" alt="Use case diagram" width="1000" height="1000">
 
+
+## url
+>https://hngx-t2.onrender.com/api?name=Dave
