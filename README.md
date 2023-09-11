@@ -40,3 +40,7 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 ##Documentation
 
 >https://documenter.getpostman.com/view/29175518/2s9YC1XaKn
+
+##UseCase
+![use case.jpg](use%20case.jpg)
+
