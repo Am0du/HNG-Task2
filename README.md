@@ -1,4 +1,4 @@
-# Task Two:  Crud Operation
+# Task Two:  CRUD Operation
 
 This is a simple REST API capable of CRUD operations on a "person" resource, interfacing with any relational Database.
 
