@@ -13,5 +13,3 @@ typing_extensions==4.7.1
 Werkzeug==2.2.3
 gunicorn==21.2.0
 bleach
-gunicorn==21.2.0
-psycopg2-binary==2.9.6
