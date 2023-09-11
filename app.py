@@ -87,7 +87,7 @@ def put():
         new_user = TaskTwo(name=new_name)
         db.session.add(new_user)
         db.session.commit()
-        return jsonify(response=f'{new_name} have been found', status_code=400), 400
+        return jsonify(response=f'{new_name} have been added', status_code=200), 200
     else:
         user.name = new_name
         db.session.commit()
