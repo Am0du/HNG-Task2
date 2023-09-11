@@ -84,7 +84,10 @@ def put():
     try:
         user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar_one()
     except NoResultFound:
-        return jsonify(response=f'No {name} found', status_code=400), 400
+        new_user = TaskTwo(name=new_name)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify(response=f'{new_name} have been found', status_code=400), 400
     else:
         user.name = new_name
         db.session.commit()
