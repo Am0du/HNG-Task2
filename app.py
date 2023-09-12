@@ -61,7 +61,7 @@ def put(id):
     name = data.get('name')
     username = data.get('username')
     try:
-        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar_one()
     except NoResultFound:
         random_int = randint(1, 1001)
         if checker(name):
