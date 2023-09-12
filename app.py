@@ -15,7 +15,18 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-
+def checker(name):
+    word_list = list(name)
+    checker = None
+    for i in word_list:
+        try:
+            value = int(i)
+        except ValueError:
+            checker = True
+        else:
+            checker = False
+            break
+    return checker
 @app.route('/api/<int:id>', methods=['GET'])
 def read(id):
     # name = request.form.get('name')
