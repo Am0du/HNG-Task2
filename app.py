@@ -80,7 +80,12 @@ def put(id):
             return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
     else:
         if checker(name):
+            if username:
+                username = username
+            else:
+                username = user.username
             user.name = name
+            user.username = username
             user.username = user.username
             db.session.commit()
             updated = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
