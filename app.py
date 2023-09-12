@@ -96,7 +96,7 @@ def put(id):
 @app.route('/api/<int:id>', methods=['DELETE'])
 def delete(id):
     try:
-        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar_one()
     except NoResultFound:
         return jsonify(response=f'{id} does not exist', status_code=400), 400
     else:
