@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
 import bleach
 import os
+from random import randint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('key')
@@ -14,97 +15,78 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-def checker(name):
-    word_list = list(name)
-    checker = None
-    for i in word_list:
-        try:
-            value = int(i)
-        except ValueError:
-            checker = True
-        else:
-            checker = False
-            break
-    return checker
 
-@app.route('/')
-def home():
-    return jsonify(response='hey')
-
-@app.route('/api', methods=['POST', 'PUT', 'GET', 'DELETE'])
-def api():
-    name = request.args.get('name')
-    if checker(name):
-        name = bleach.clean(name)
-        if request.method == 'GET':
-            return redirect(url_for('read', name=name)), 307
-        elif request.method == 'POST':
-            return redirect(url_for('create', name=name)), 307
-        elif request.method == 'PUT':
-            new_name = request.args.get('new_name')
-            if checker(new_name):
-                bleach_name = bleach.clean(new_name)
-                return redirect(url_for('put', name=name, new_name=bleach_name)), 307
-            else:
-                return jsonify(response=f'{new_name} has a integer', status_code=400), 400
-
-        elif request.method == 'DELETE':
-            return redirect(url_for('delete', name=name)), 307
-    else:
-        return jsonify(response=f'{name} has a integer', status_code=400), 400
-
-@app.route('/api/read', methods=['GET'])
-def read():
-    name = request.args.get('name')
+@app.route('/api/<int:id>', methods=['GET'])
+def read(id):
+    # name = request.form.get('name')
     try:
-        user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar_one()
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar_one()
     except NoResultFound:
-        return jsonify(response='No Result Found', status_code=400), 400
+        return jsonify(response=f'No Result with id={id} Found', status_code=400), 400
     else:
-        return jsonify(id=user.id, name=user.name), 200
+        return jsonify(id=user.id, name=user.name, username=user.username), 200
 
-@app.route('/api/create', methods=['POST'])
+
+@app.route('/api', methods=['POST'])
 def create():
-    name = request.args.get('name')
-    try:
-        user = TaskTwo(name=name)
+    data = request.get_json('name')
+    name = data.get('name')
+    random_int = randint(1, 1001)
+    if checker(name):
+        username = f'{name}{random_int}'
+        user = TaskTwo(name=name, username=username)
         db.session.add(user)
         db.session.commit()
-
-    except IntegrityError:
-        return jsonify(response='This name already Exist', status_code=400), 400
+        user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar()
+        return jsonify(response=f'{name} created successfully', id=user.id,
+                       name=user.name, username=user.username, status_code=200), 200
     else:
-        return jsonify(response=f'{name} created successfully', status_code=200), 200
+        return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
 
 
-@app.route('/api/put', methods=['PUT'])
-def put():
-    name = request.args.get('name')
-    new_name = request.args.get('new_name')
+@app.route('/api/<int:id>', methods=['PUT'])
+def put(id):
+    data = request.get_json('name')
+    name = data.get('name')
+    username = data.get('username')
     try:
-        user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar_one()
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
     except NoResultFound:
-        new_user = TaskTwo(name=new_name)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify(response=f'{new_name} have been added', status_code=200), 200
+        random_int = randint(1, 1001)
+        if checker(name):
+            if username:
+                username = username
+            else:
+                username = f'{name}{random_int}'
+
+            user = TaskTwo(name=name, username=username)
+            db.session.add(user)
+            db.session.commit()
+            user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar()
+            return jsonify(response=f'{name} created successfully', id=user.id,
+                           name=user.name, username=user.username, status_code=200), 200
+        else:
+            return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
     else:
-        user.name = new_name
-        db.session.commit()
-        return jsonify(response=f'{name} has been updated to {new_name}', status_code=200), 200
+        if username:
+            user.name = name
+            user.username = username
+            db.session.commit()
+            updated = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
+            return jsonify(response='User update', id=updated.id, name=updated.name, username=updated.username,
+                           status_code=200), 200
 
 
-@app.route('/api/delete', methods=['DELETE'])
-def delete():
-    name = request.args.get('name')
+@app.route('/api/<int:id>', methods=['DELETE'])
+def delete(id):
     try:
-        user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar_one()
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
     except NoResultFound:
-        return jsonify(response=f'{name} does not exist', status_code=400), 400
+        return jsonify(response=f'{id} does not exist', status_code=400), 400
     else:
         db.session.delete(user)
         db.session.commit()
-        return jsonify(response=f'{name} has been deleted', status_code=200), 200
+        return jsonify(response=f'user with id={id} has been deleted', status_code=200), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
