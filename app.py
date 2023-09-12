@@ -79,7 +79,7 @@ def put(id):
         else:
             return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
     else:
-        if username:
+        if checker(name):
             user.name = name
             user.username = username
             db.session.commit()
