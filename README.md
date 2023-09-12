@@ -56,4 +56,4 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 
 
 ## url
->https://hngx-t2.onrender.com/api?name=Dave
+> https://hngx-k6wy.onrender.com/api/1
