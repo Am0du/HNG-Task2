@@ -81,7 +81,7 @@ def put(id):
     else:
         if checker(name):
             user.name = name
-            user.username = username
+            user.username = user.username
             db.session.commit()
             updated = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
             return jsonify(response='User update', id=updated.id, name=updated.name, username=updated.username,
