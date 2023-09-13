@@ -37,7 +37,7 @@ def read(id):
     else:
         return jsonify(id=user.id, name=user.name, username=user.username), 200
 
-@app.route('/api', method=['GET'])
+@app.route('/api', methods=['GET'])
 def home():
     users = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalars()
     list = []
