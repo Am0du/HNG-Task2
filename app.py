@@ -39,7 +39,7 @@ def read(id):
 
 @app.route('/api', methods=['GET'])
 def home():
-    users = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalars()
+    users = db.session.execute(db.select(TaskTwo).order_by(TaskTwo.id)).scalars()
     list = []
     for user in users:
         data = {
