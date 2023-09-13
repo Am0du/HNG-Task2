@@ -63,21 +63,8 @@ def put(id):
     try:
         user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar_one()
     except NoResultFound:
-        random_int = randint(1, 1001)
-        if checker(name):
-            if username:
-                username = username
-            else:
-                username = f'{name}{random_int}'
 
-            user = TaskTwo(name=name, username=username)
-            db.session.add(user)
-            db.session.commit()
-            user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar()
-            return jsonify(response=f'{name} created successfully', id=user.id,
-                           name=user.name, username=user.username, status_code=200), 200
-        else:
-            return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
+        return jsonify(response=f'user with id = {id} not found', status_code=404), 404
     else:
         if checker(name):
             if username:

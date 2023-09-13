@@ -35,11 +35,10 @@ This is a basic REST API designed for CRUD operations on a "person" resource. It
 
 ## Features
 
-* The GET request requires an attribute name and its corresponding value, and it retrieves a person from the database if it exists.
-* The POST request accepts an attribute name along with its corresponding value and utilizes this information to create a new person entry within the database.
-* The PUT request receives two attributes: 'attribute_name' and 'new_name,' and utilizes them to update a person's name to the 'new_name' value.
-* The DELETE request requires an attribute name and its corresponding value, and if a matching person exists in the database, it proceeds to delete that person.
-
+* The GET request necessitates a user_id parameter. Its purpose is to retrieve a person from the database if a matching record exists.
+* This POST request accepts JSON data, including corresponding values, and utilizes this information to create a new entry for a person in the database.
+* The PUT request mandates a user_id and receives JSON data for updating a person's information. If the specified user_id does not exist in the database, throws an error.
+* This DELETE request necessitates a 'user_id,' and if a matching person exists in the database, it proceeds to delete that individual.
 ## Limitations
 * No support for Authentication and Authorization.
 * No support for pagination.
