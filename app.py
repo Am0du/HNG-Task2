@@ -64,7 +64,7 @@ def create():
         db.session.commit()
         user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar()
         return jsonify(response=f'{name} created successfully', id=user.id,
-                       name=user.name, username=user.username, status_code=200), 200
+                       name=user.name, username=user.username, status_code=201), 201
     else:
         return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
 
@@ -91,7 +91,7 @@ def put(id):
             db.session.commit()
             updated = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
             return jsonify(response='User update', id=updated.id, name=updated.name, username=updated.username,
-                           status_code=200), 200
+                           status_code=201), 201
 
 
 @app.route('/api/<int:id>', methods=['DELETE'])
@@ -103,7 +103,8 @@ def delete(id):
     else:
         db.session.delete(user)
         db.session.commit()
-        return jsonify(response=f'user with id={id} has been deleted', status_code=200), 200
+        user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar()
+        return jsonify(response=f'user with {user}has been deleted', status_code=200), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
