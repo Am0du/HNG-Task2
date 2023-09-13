@@ -33,7 +33,7 @@ def read(id):
     try:
         user = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalar_one()
     except NoResultFound:
-        return jsonify(response=f'No Result with id={id} Found', status_code=404), 404
+        return jsonify(response=f'No Result with id={id} Found'), 404
     else:
         return jsonify(id=user.id, name=user.name, username=user.username), 200
 
@@ -49,7 +49,7 @@ def home():
         }
         list.append(data)
 
-    return jsonify(response=list, status_code=200), 200
+    return jsonify(response=list), 200
 
     return
 @app.route('/api', methods=['POST'])
@@ -64,7 +64,7 @@ def create():
         db.session.commit()
         user = db.session.execute(db.select(TaskTwo).filter_by(name=name)).scalar()
         return jsonify(response=f'{name} created successfully', id=user.id,
-                       name=user.name, username=user.username, status_code=201), 201
+                       name=user.name, username=user.username), 201
     else:
         return jsonify(response=f'{name} contains an integer, not allowed', status_code=400), 400
 
