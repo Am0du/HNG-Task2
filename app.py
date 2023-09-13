@@ -51,7 +51,6 @@ def home():
 
     return jsonify(response=list), 200
 
-    return
 @app.route('/api', methods=['POST'])
 def create():
     data = request.get_json('name')
