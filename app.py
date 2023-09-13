@@ -37,7 +37,21 @@ def read(id):
     else:
         return jsonify(id=user.id, name=user.name, username=user.username), 200
 
+@app.route('/api', method=['GET'])
+def home():
+    users = db.session.execute(db.select(TaskTwo).filter_by(id=id)).scalars()
+    list = []
+    for user in users:
+        data = {
+            'id': user.id,
+            'name': user.name,
+            'username': user.name
+        }
+        list.append(data)
 
+    return jsonify(response=list, status_code=200), 200
+
+    return
 @app.route('/api', methods=['POST'])
 def create():
     data = request.get_json('name')
